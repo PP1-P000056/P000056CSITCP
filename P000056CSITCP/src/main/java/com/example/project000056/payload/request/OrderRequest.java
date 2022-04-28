@@ -1,15 +1,7 @@
-package com.example.project000056.model;
+package com.example.project000056.payload.request;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-
-@Entity
-@Table(name="orders")
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class OrderRequest {
+//    private int id;
     private String sender_name;
     private String sender_phone;
     private String sender_address;
@@ -20,51 +12,16 @@ public class Order {
     private int product_weight;
     private String pickup_time;
     private int delivery_status;
-//    private int user_id;
-//    private int driver_id;
-@ManyToMany(cascade = CascadeType.ALL)
-@JoinTable(	name = "order_user",
-        joinColumns = @JoinColumn(
-                name = "order_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(
-                name = "user_id", referencedColumnName = "id")
-)
-Set<User> user = new HashSet<>();
+    private int user_id;
+    private int driver_id;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
-//    private User user;
-// lombok dependency, use lombok for getters, setters, constructor, etc.
-
-    public Order() {
-
-    }
-
-    public Order(String sender_name, String sender_phone) {
-        this.sender_name = sender_name;
-        this.sender_phone = sender_phone;
-    }
-
-    public Order(String sender_name, String sender_phone, String sender_address, String receiver_name, String receiver_phone, String receiver_address, String product_type, int product_weight, String pickup_time, int delivery_status) {
-        this.sender_name = sender_name;
-        this.sender_phone = sender_phone;
-        this.sender_address = sender_address;
-        this.receiver_name = receiver_name;
-        this.receiver_phone = receiver_phone;
-        this.receiver_address = receiver_address;
-        this.product_type = product_type;
-        this.product_weight = product_weight;
-        this.pickup_time = pickup_time;
-        this.delivery_status = delivery_status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public String getSender_name() {
         return sender_name;
@@ -145,20 +102,20 @@ Set<User> user = new HashSet<>();
     public void setDelivery_status(int delivery_status) {
         this.delivery_status = delivery_status;
     }
-//
-//    public int getUser_id() {
-//        return user_id;
-//    }
-//
-//    public void setUser_id(int user_id) {
-//        this.user_id = user_id;
-//    }
-//
-//    public int getDriver_id() {
-//        return driver_id;
-//    }
-//
-//    public void setDriver_id(int driver_id) {
-//        this.driver_id = driver_id;
-//    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public int getDriver_id() {
+        return driver_id;
+    }
+
+    public void setDriver_id(int driver_id) {
+        this.driver_id = driver_id;
+    }
 }

@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/auth/")
 public class UserController{
     @Autowired
     AuthenticationManager authenticationManager;
@@ -50,6 +50,7 @@ public class UserController{
 
     @Autowired
     public UserController(UserRepository userRepository) {
+
         this.userRepository = userRepository;
     }
 

@@ -13,6 +13,9 @@ public class User {
     private String password;
     private Boolean loggedIn;
 
+//    @OneToOne(mappedBy = "user")
+//    private Order order;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(	name = "user_role",
             joinColumns = @JoinColumn(
@@ -20,6 +23,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id")
     )
+
     private Collection<Role> roles;
 
     public User() {
