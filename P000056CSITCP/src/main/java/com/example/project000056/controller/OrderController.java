@@ -34,7 +34,7 @@ public class OrderController {
 //                orderRequest.getProduct_weight(),
 //                orderRequest.getPickup_time(),
 //                orderRequest.getDelivery_status());
-                Order order = new Order(orderRequest.getSender_name(),
+        Order order = new Order(orderRequest.getSender_name(),
                 orderRequest.getSender_phone());
         orderRepository.save(order);
         return ResponseEntity.ok(new MessageResponse("Order created successfully!"));

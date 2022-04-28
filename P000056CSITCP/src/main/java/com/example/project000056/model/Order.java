@@ -20,16 +20,16 @@ public class Order {
     private int product_weight;
     private String pickup_time;
     private int delivery_status;
-//    private int user_id;
+    //    private int user_id;
 //    private int driver_id;
-@ManyToMany(cascade = CascadeType.ALL)
-@JoinTable(	name = "order_user",
-        joinColumns = @JoinColumn(
-                name = "order_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(
-                name = "user_id", referencedColumnName = "id")
-)
-Set<User> user = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(	name = "order_user",
+            joinColumns = @JoinColumn(
+                    name = "order_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id")
+    )
+    Set<User> user = new HashSet<>();
 
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "user_id", referencedColumnName = "id")
