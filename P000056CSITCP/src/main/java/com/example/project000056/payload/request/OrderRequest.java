@@ -1,7 +1,8 @@
 package com.example.project000056.payload.request;
 
+import javax.persistence.Lob;
+
 public class OrderRequest {
-    //    private int id;
     private String sender_name;
     private String sender_phone;
     private String sender_address;
@@ -11,17 +12,12 @@ public class OrderRequest {
     private String product_type;
     private int product_weight;
     private String pickup_time;
-    private int delivery_status;
-    private int user_id;
-    private int driver_id;
+    private String pickup_date;
+    //file upload
+    private String name;
+    private String type;
+    private byte[] data;
 
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
 
     public String getSender_name() {
         return sender_name;
@@ -95,27 +91,35 @@ public class OrderRequest {
         this.pickup_time = pickup_time;
     }
 
-    public int getDelivery_status() {
-        return delivery_status;
+    public String getPickup_date() {
+        return pickup_date;
     }
 
-    public void setDelivery_status(int delivery_status) {
-        this.delivery_status = delivery_status;
+    public void setPickup_date(String pickup_date) {
+        this.pickup_date = pickup_date;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public String getName() {
+        return name;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getDriver_id() {
-        return driver_id;
+    public String getType() {
+        return type;
     }
 
-    public void setDriver_id(int driver_id) {
-        this.driver_id = driver_id;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
     }
 }

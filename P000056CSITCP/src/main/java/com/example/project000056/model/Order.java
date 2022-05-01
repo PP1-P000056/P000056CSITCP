@@ -18,10 +18,14 @@ public class Order {
     private String receiver_address;
     private String product_type;
     private int product_weight;
+    private String pickup_date;
     private String pickup_time;
-    private int delivery_status;
-    //    private int user_id;
-//    private int driver_id;
+    //file upload
+    private String name;
+    private String type;
+    @Lob
+    private byte[] data;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(	name = "order_user",
             joinColumns = @JoinColumn(
@@ -31,21 +35,22 @@ public class Order {
     )
     Set<User> user = new HashSet<>();
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
-//    private User user;
-// lombok dependency, use lombok for getters, setters, constructor, etc.
 
     public Order() {
 
     }
+//      public Order(String name, String type, byte[] data) {
+//    this.name = name;
+//    this.type = type;
+//    this.data = data;
+//  }
 
     public Order(String sender_name, String sender_phone) {
         this.sender_name = sender_name;
         this.sender_phone = sender_phone;
     }
 
-    public Order(String sender_name, String sender_phone, String sender_address, String receiver_name, String receiver_phone, String receiver_address, String product_type, int product_weight, String pickup_time, int delivery_status) {
+    public Order(String sender_name, String sender_phone, String sender_address, String receiver_name, String receiver_phone, String receiver_address, String product_type, int product_weight, String pickup_date, String pickup_time,String name, String type, byte[] data) {
         this.sender_name = sender_name;
         this.sender_phone = sender_phone;
         this.sender_address = sender_address;
@@ -54,8 +59,11 @@ public class Order {
         this.receiver_address = receiver_address;
         this.product_type = product_type;
         this.product_weight = product_weight;
+        this.pickup_date=pickup_date;
         this.pickup_time = pickup_time;
-        this.delivery_status = delivery_status;
+        this.name = name;
+        this.type = type;
+        this.data = data;
     }
 
     public Long getId() {
@@ -138,27 +146,35 @@ public class Order {
         this.pickup_time = pickup_time;
     }
 
-    public int getDelivery_status() {
-        return delivery_status;
+    public String getPickup_date() {
+        return pickup_date;
     }
 
-    public void setDelivery_status(int delivery_status) {
-        this.delivery_status = delivery_status;
+    public void setPickup_date(String pickup_date) {
+        this.pickup_date = pickup_date;
     }
-//
-//    public int getUser_id() {
-//        return user_id;
-//    }
-//
-//    public void setUser_id(int user_id) {
-//        this.user_id = user_id;
-//    }
-//
-//    public int getDriver_id() {
-//        return driver_id;
-//    }
-//
-//    public void setDriver_id(int driver_id) {
-//        this.driver_id = driver_id;
-//    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
 }
