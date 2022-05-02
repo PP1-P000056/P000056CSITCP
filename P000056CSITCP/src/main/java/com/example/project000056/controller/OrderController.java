@@ -29,7 +29,7 @@ public class OrderController {
     }
 
     @PostMapping(value="/create",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> createOrder(@ModelAttribute OrderRequest orderRequest, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> createOrder(@ModelAttribute OrderRequest orderRequest, @RequestParam("returnLabel") MultipartFile file) {
 //        Order order = new Order(orderRequest.getSender_name(),
 //                orderRequest.getSender_phone(),
 //                String.valueOf(orderRequest.getSender_phone()),
