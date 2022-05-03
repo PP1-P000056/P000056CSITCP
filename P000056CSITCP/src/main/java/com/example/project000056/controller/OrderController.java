@@ -6,17 +6,14 @@ import com.example.project000056.payload.response.MessageResponse;
 import com.example.project000056.repository.OrderRepository;
 import com.example.project000056.singleton.userHolder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000" )
 @RestController
@@ -59,6 +56,12 @@ public class OrderController {
     @GetMapping("/getAll")
     List<Order> getOrderByUserId(@RequestParam(value = "userid") Long userid) {
         return orderRepository.findOrderByUserID(userid);
+    }
+
+    //get Order by ID
+    @GetMapping("/getOrder")
+    Optional<Order> getOrderById(@RequestParam(value = "id") Long id) {
+        return orderRepository.findById(id);
     }
 
 }
