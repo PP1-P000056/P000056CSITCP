@@ -30,7 +30,11 @@ public class OrderController {
     }
 
     @PostMapping(value="/create",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> createOrder(@ModelAttribute OrderRequest orderRequest, @RequestParam("returnLabel") MultipartFile file) {
+    public ResponseEntity<?> createOrder(@RequestParam String senderName, @RequestParam String senderPhonenumber, @RequestParam String senderAddress,
+                                         @RequestParam String receiverName, @RequestParam String receiverPhonenumber, @RequestParam String receiverAddress,
+                                         @RequestParam String productType, @RequestParam String productWeight, @RequestParam String startDate,
+                                         @RequestParam String startTime,
+                                         @RequestParam("returnLabel") MultipartFile file) {
         try {
             // get uploaded filename
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -39,12 +43,19 @@ public class OrderController {
             userHolder = userHolder.getInstance();
             user = userHolder.getUser();
             System.out.println(user.getId());
-            // then create order
-            Order newOrder = new Order(orderRequest.getSender_name(),orderRequest.getSender_phone(),orderRequest.getSender_address(),
-                    orderRequest.getReceiver_name(),orderRequest.getReceiver_phone(),orderRequest.getReceiver_address(),
-                    orderRequest.getProduct_type(), orderRequest.getProduct_weight(), orderRequest.getPickup_date(),orderRequest.getPickup_time(),
+
+//            // then create order
+//            Order newOrder = new Order(orderRequest.getSender_name(),orderRequest.getSender_phone(),orderRequest.getSender_address(),
+//                    orderRequest.getReceiver_name(),orderRequest.getReceiver_phone(),orderRequest.getReceiver_address(),
+//                    orderRequest.getProduct_type(), orderRequest.getProduct_weight(), orderRequest.getPickup_date(),orderRequest.getPickup_time(),
+//                    fileName,file.getContentType(),file.getBytes(),user.getId());
+
+            Order newOrder = new Order(senderName,senderPhonenumber,senderAddress,
+                    receiverName,receiverPhonenumber,receiverAddress,
+                    productType, productWeight, startDate,startTime,
                     fileName,file.getContentType(),file.getBytes(),user.getId());
             orderRepository.save(newOrder);
+            System.out.println(senderName);
             return ResponseEntity.ok(new MessageResponse("Order created successfully!"));
         } catch (Exception e) {
             return ResponseEntity.ok(new MessageResponse("Order failed!"));
