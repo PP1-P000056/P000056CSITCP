@@ -12,6 +12,7 @@ import com.example.project000056.repository.RoleRepository;
 import com.example.project000056.repository.UserRepository;
 import com.example.project000056.security.jwt.JwtUtils;
 import com.example.project000056.security.services.UserDetailsImpl;
+import com.example.project000056.singleton.userHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,7 +47,8 @@ public class UserController{
 
     @Autowired
     JwtUtils jwtUtils;
-
+    private User user;
+    private userHolder userHolder;
 
     @Autowired
     public UserController(UserRepository userRepository) {
@@ -56,7 +58,7 @@ public class UserController{
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
+        userHolder = userHolder.getInstance();
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -68,6 +70,10 @@ public class UserController{
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
+        // set singleton
+        User userSignin = new User(userDetails.getId(),userDetails.getUsername(),userDetails.getEmail());
+        userHolder.setUser(userSignin);
+        System.out.println(userSignin.getId());
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
@@ -77,6 +83,7 @@ public class UserController{
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        userHolder = userHolder.getInstance();
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
@@ -90,7 +97,7 @@ public class UserController{
         }
 
         // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
+        user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 
@@ -126,7 +133,9 @@ public class UserController{
 
         user.setRoles(roles);
         userRepository.save(user);
-
+        // set singleton
+        userHolder.setUser(user);
+        System.out.println(user.getId());
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 }

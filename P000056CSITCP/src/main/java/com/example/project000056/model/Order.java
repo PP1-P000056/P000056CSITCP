@@ -1,8 +1,6 @@
 package com.example.project000056.model;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name="orders")
@@ -17,23 +15,24 @@ public class Order {
     private String receiver_phone;
     private String receiver_address;
     private String product_type;
-    private int product_weight;
+    private String product_weight;
     private String pickup_date;
     private String pickup_time;
+    private Long userID;
     //file upload
     private String name;
     private String type;
     @Lob
     private byte[] data;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(	name = "order_user",
-            joinColumns = @JoinColumn(
-                    name = "order_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "user_id", referencedColumnName = "id")
-    )
-    Set<User> user = new HashSet<>();
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(	name = "order_user",
+//            joinColumns = @JoinColumn(
+//                    name = "order_id", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(
+//                    name = "user_id", referencedColumnName = "id")
+//    )
+//    Set<User> user = new HashSet<>();
 
 
     public Order() {
@@ -50,7 +49,7 @@ public class Order {
         this.sender_phone = sender_phone;
     }
 
-    public Order(String sender_name, String sender_phone, String sender_address, String receiver_name, String receiver_phone, String receiver_address, String product_type, int product_weight, String pickup_date, String pickup_time,String name, String type, byte[] data) {
+    public Order(String sender_name, String sender_phone, String sender_address, String receiver_name, String receiver_phone, String receiver_address, String product_type, String product_weight, String pickup_date, String pickup_time, String name, String type, byte[] data, Long userID) {
         this.sender_name = sender_name;
         this.sender_phone = sender_phone;
         this.sender_address = sender_address;
@@ -64,6 +63,7 @@ public class Order {
         this.name = name;
         this.type = type;
         this.data = data;
+        this.userID = userID;
     }
 
     public Long getId() {
@@ -130,11 +130,11 @@ public class Order {
         this.product_type = product_type;
     }
 
-    public int getProduct_weight() {
+    public String getProduct_weight() {
         return product_weight;
     }
 
-    public void setProduct_weight(int product_weight) {
+    public void setProduct_weight(String product_weight) {
         this.product_weight = product_weight;
     }
 

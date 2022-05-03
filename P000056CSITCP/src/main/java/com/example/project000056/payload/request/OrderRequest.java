@@ -1,7 +1,5 @@
 package com.example.project000056.payload.request;
 
-import javax.persistence.Lob;
-
 public class OrderRequest {
     private String sender_name;
     private String sender_phone;
@@ -10,7 +8,7 @@ public class OrderRequest {
     private String receiver_phone;
     private String receiver_address;
     private String product_type;
-    private int product_weight;
+    private String product_weight;
     private String pickup_time;
     private String pickup_date;
     //file upload
@@ -75,11 +73,11 @@ public class OrderRequest {
         this.product_type = product_type;
     }
 
-    public int getProduct_weight() {
+    public String getProduct_weight() {
         return product_weight;
     }
 
-    public void setProduct_weight(int product_weight) {
+    public void setProduct_weight(String product_weight) {
         this.product_weight = product_weight;
     }
 
