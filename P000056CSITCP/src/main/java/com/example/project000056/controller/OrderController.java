@@ -64,7 +64,7 @@ public class OrderController {
             System.out.println(senderName);
 
 
-            MailService.sendSimpleMail(user.getEmail(),"279205343,"," 279205343！");
+            MailService.sendSimpleMail(user.getEmail(),"New Order","QR code");
             return ResponseEntity.ok(new MessageResponse("Order created successfully!"));
         } catch (Exception e) {
             return ResponseEntity.ok(new MessageResponse("Order failed!"));
