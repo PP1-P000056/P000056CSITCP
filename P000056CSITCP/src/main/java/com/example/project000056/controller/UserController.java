@@ -1,5 +1,6 @@
 package com.example.project000056.controller;
 
+import com.example.project000056.email.MailService;
 import com.example.project000056.model.ERole;
 import com.example.project000056.model.Role;
 import com.example.project000056.model.Status;
@@ -22,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
+import com.example.project000056.email.MailService;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -44,6 +46,9 @@ public class UserController{
 
     @Autowired
     PasswordEncoder encoder;
+
+    @Autowired
+    private MailService MailService;
 
     @Autowired
     JwtUtils jwtUtils;
@@ -69,6 +74,9 @@ public class UserController{
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
+
+        System.out.println(userDetails.getEmail());
+        MailService.sendSimpleMail(userDetails.getEmail(),"279205343,"," 279205343！");
 
         // set singleton
         User userSignin = new User(userDetails.getId(),userDetails.getUsername(),userDetails.getEmail());
