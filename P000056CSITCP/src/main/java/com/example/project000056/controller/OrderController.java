@@ -1,4 +1,5 @@
 package com.example.project000056.controller;
+import com.example.project000056.email.MailService;
 import com.example.project000056.model.Order;
 import com.example.project000056.model.User;
 import com.example.project000056.payload.request.OrderRequest;
@@ -11,11 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.example.project000056.email.MailService;
 
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000" )
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/auth/orders")
 public class OrderController {
@@ -23,9 +25,12 @@ public class OrderController {
     OrderRepository orderRepository;
     private userHolder userHolder;
     private User user;
+
+    @Autowired
+    private MailService MailService;
+
     @Autowired
     public OrderController(OrderRepository orderRepository) {
-
         this.orderRepository = orderRepository;
     }
 
@@ -44,6 +49,7 @@ public class OrderController {
             user = userHolder.getUser();
             System.out.println(user.getId());
 
+
 //            // then create order
 //            Order newOrder = new Order(orderRequest.getSender_name(),orderRequest.getSender_phone(),orderRequest.getSender_address(),
 //                    orderRequest.getReceiver_name(),orderRequest.getReceiver_phone(),orderRequest.getReceiver_address(),
@@ -56,11 +62,13 @@ public class OrderController {
                     fileName,file.getContentType(),file.getBytes(),user.getId());
             orderRepository.save(newOrder);
             System.out.println(senderName);
+
+
+            MailService.sendSimpleMail(user.getEmail(),"279205343,"," 279205343！");
             return ResponseEntity.ok(new MessageResponse("Order created successfully!"));
         } catch (Exception e) {
             return ResponseEntity.ok(new MessageResponse("Order failed!"));
         }
-
     }
 
     //get Order by UserID

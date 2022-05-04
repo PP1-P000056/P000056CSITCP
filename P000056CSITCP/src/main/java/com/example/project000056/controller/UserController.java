@@ -48,9 +48,6 @@ public class UserController{
     PasswordEncoder encoder;
 
     @Autowired
-    private MailService MailService;
-
-    @Autowired
     JwtUtils jwtUtils;
     private User user;
     private userHolder userHolder;
@@ -75,8 +72,7 @@ public class UserController{
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        System.out.println(userDetails.getEmail());
-        MailService.sendSimpleMail(userDetails.getEmail(),"279205343,"," 279205343！");
+
 
         // set singleton
         User userSignin = new User(userDetails.getId(),userDetails.getUsername(),userDetails.getEmail());
