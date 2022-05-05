@@ -1,5 +1,6 @@
 package com.example.project000056.controller;
 
+import com.example.project000056.email.EmailSendBox;
 import com.example.project000056.email.MailService;
 import com.example.project000056.model.ERole;
 import com.example.project000056.model.Role;
@@ -9,6 +10,9 @@ import com.example.project000056.payload.request.LoginRequest;
 import com.example.project000056.payload.request.SignupRequest;
 import com.example.project000056.payload.response.JwtResponse;
 import com.example.project000056.payload.response.MessageResponse;
+import com.example.project000056.qrcode.QRCodeGenerator;
+import com.example.project000056.qrcode.QRcodeMaker;
+import com.example.project000056.qrcode.QrCodeUtil;
 import com.example.project000056.repository.RoleRepository;
 import com.example.project000056.repository.UserRepository;
 import com.example.project000056.security.jwt.JwtUtils;
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.project000056.email.MailService;
 
 import javax.validation.Valid;
+import java.io.File;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,6 +53,12 @@ public class UserController{
     PasswordEncoder encoder;
 
     @Autowired
+    private MailService MailService;
+
+    QRcodeMaker qRcodeUtil = new QRcodeMaker();
+    EmailSendBox emailSendBox = new EmailSendBox();
+
+    @Autowired
     JwtUtils jwtUtils;
     private User user;
     private userHolder userHolder;
@@ -59,7 +70,8 @@ public class UserController{
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
+        QRCodeGenerator qr = new QRCodeGenerator();
         userHolder = userHolder.getInstance();
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -73,10 +85,21 @@ public class UserController{
                 .collect(Collectors.toList());
 
 
-
         // set singleton
         User userSignin = new User(userDetails.getId(),userDetails.getUsername(),userDetails.getEmail());
         userHolder.setUser(userSignin);
+        QRCodeGenerator.generateQRCodeImage("ssss",350,350,"test.png");
+//        qRcodeUtil.getQRCodeImage("Xiaojie wants to eat eggs", 350, 350, "./src/main/resources");
+//        QrCodeUtil.save("123",null,"./src/main/resources");
+//        MailService.sendSimpleMail(userSignin.getEmail(),"New Order","QR code");
+        MailService.sendAttachmentsMail(userSignin.getEmail(),"dasdas","dasda","test.png");
+        MailService.sendAttachmentsMail("s3798551@student.rmit.edu.au","dasdas","dasda","test.png");
+
+        MailService.sendAttachmentsMail("653745320@qq.com","dasdas","dasda","test.png");
+
+//        MailService.sendInlineResourceMail("s3798551@student.rmit.edu.au","New Order","QR code","test.png","png");
+//        MailService.sendInlineResourceMail("653745320@qq.com","New Order","QR code","test.png","png");
+//        emailSendBox.send("test","qrcode",false,userSignin.getEmail(),null,new File("test.png"));
         System.out.println(userSignin.getId());
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
