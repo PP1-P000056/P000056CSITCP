@@ -4,6 +4,7 @@ import com.example.project000056.model.Order;
 import com.example.project000056.model.User;
 import com.example.project000056.payload.request.OrderRequest;
 import com.example.project000056.payload.response.MessageResponse;
+import com.example.project000056.qrcode.QRCodeGenerator;
 import com.example.project000056.repository.OrderRepository;
 import com.example.project000056.singleton.userHolder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,15 @@ public class OrderController {
             user = userHolder.getUser();
             System.out.println(user.getId());
 
+            String orderDetail = "";
+            orderDetail = "senderName: " + senderName + "\r\nsenderPhonenumber: " + senderPhonenumber + "\r\nsenderAddress: "+ senderAddress
+            + "\r\nreceiverName: " + receiverName + "\r\nreceiverPhonenumber: " + receiverPhonenumber + "\r\nreceiverAddress: "+receiverAddress
+            + "\r\nproductType: " + productType + "\r\nproductWeight: "+productWeight + "\r\nstartDate: "+startDate + "\r\nstartTime: "+startTime;
+            System.out.println(user.getEmail());
+
+            QRCodeGenerator.generateQRCodeImage(orderDetail,350,350,"order.png");
+            MailService.sendAttachmentsMail(user.getEmail(),"QRCode for order details","Order created successfully!","order.png");
+
 
 //            // then create order
 //            Order newOrder = new Order(orderRequest.getSender_name(),orderRequest.getSender_phone(),orderRequest.getSender_address(),
@@ -61,10 +71,7 @@ public class OrderController {
                     productType, productWeight, startDate,startTime,
                     fileName,file.getContentType(),file.getBytes(),user.getId());
             orderRepository.save(newOrder);
-            System.out.println(senderName);
 
-
-            MailService.sendSimpleMail(user.getEmail(),"New Order","QR code");
             return ResponseEntity.ok(new MessageResponse("Order created successfully!"));
         } catch (Exception e) {
             return ResponseEntity.ok(new MessageResponse("Order failed!"));

@@ -88,19 +88,23 @@ public class UserController{
         // set singleton
         User userSignin = new User(userDetails.getId(),userDetails.getUsername(),userDetails.getEmail());
         userHolder.setUser(userSignin);
-        QRCodeGenerator.generateQRCodeImage("ssss",350,350,"test.png");
+//        QRCodeGenerator.generateQRCodeImage("ssss",350,350,"test.png");
 //        qRcodeUtil.getQRCodeImage("Xiaojie wants to eat eggs", 350, 350, "./src/main/resources");
 //        QrCodeUtil.save("123",null,"./src/main/resources");
 //        MailService.sendSimpleMail(userSignin.getEmail(),"New Order","QR code");
-        MailService.sendAttachmentsMail(userSignin.getEmail(),"dasdas","dasda","test.png");
-        MailService.sendAttachmentsMail("s3798551@student.rmit.edu.au","dasdas","dasda","test.png");
-
-        MailService.sendAttachmentsMail("653745320@qq.com","dasdas","dasda","test.png");
+//        MailService.sendAttachmentsMail(userSignin.getEmail(),"dasdas","dasda","test.png");
+//        MailService.sendAttachmentsMail("s3798551@student.rmit.edu.au","dasdas","dasda","test.png");
+//        System.out.println(userSignin.getEmail());
+//        MailService.sendAttachmentsMail("653745320@qq.com","dasdas","dasda","test.png");
+//        QRCodeGenerator.generateQRCodeImage("orderDetail",350,350,"order.png");
+//        MailService.sendAttachmentsMail(userSignin.getEmail(),"QRCode for order details","Order created successfully!","order.png");
+//        MailService.sendAttachmentsMail("s3798554@student.rmit.edu.au","QRCode for order details","Order created successfully!","order.png");
+//        MailService.sendAttachmentsMail("s3798551@student.rmit.edu.au","QRCode for order details","Order created successfully!","order.png");
 
 //        MailService.sendInlineResourceMail("s3798551@student.rmit.edu.au","New Order","QR code","test.png","png");
 //        MailService.sendInlineResourceMail("653745320@qq.com","New Order","QR code","test.png","png");
 //        emailSendBox.send("test","qrcode",false,userSignin.getEmail(),null,new File("test.png"));
-        System.out.println(userSignin.getId());
+//        System.out.println(userSignin.getId());
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),

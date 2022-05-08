@@ -15,14 +15,10 @@ public class QRCodeGenerator {
 
     public static void generateQRCodeImage(String text, int width, int height, String filePath)
             throws WriterException, IOException {
-        System.out.println(filePath);
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
-
         Path path = FileSystems.getDefault().getPath(filePath);
-        System.out.println(path);
         MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
-
     }
 
 
