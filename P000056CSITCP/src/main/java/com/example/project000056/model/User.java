@@ -12,6 +12,8 @@ public class User {
     private String username;
     private String password;
     private Boolean loggedIn;
+    private int role;
+    private String phone;
 
 //    @OneToOne(mappedBy = "user")
 //    private Order order;
@@ -47,6 +49,19 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+    public User(String username, String email, String password, int userRole) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = userRole;
+    }
+    public User(String username, String email, String password, String phone_number, int userRole) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.phone = phone_number;
+        this.role = userRole;
     }
     public User(Long id, String username, String email) {
         this.id = id;
@@ -99,5 +114,21 @@ public class User {
 
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone_number) {
+        this.phone = phone_number;
     }
 }
