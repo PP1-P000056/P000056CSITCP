@@ -1,6 +1,7 @@
 package com.example.project000056.model;
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Optional;
 
 @Entity
 @Table(name="user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
@@ -35,6 +36,9 @@ public class User {
         super();
         this.email = email;
         this.password = password;
+    }
+    public User(Long id) {
+        this.id = id;
     }
     public User(String email, String username, String password, Collection<Role> roles, boolean loggedIn) {
         super();

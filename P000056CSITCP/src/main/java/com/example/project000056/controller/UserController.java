@@ -7,6 +7,7 @@ import com.example.project000056.model.Role;
 import com.example.project000056.model.User;
 import com.example.project000056.payload.request.LoginRequest;
 import com.example.project000056.payload.request.SignupRequest;
+import com.example.project000056.payload.request.UpdateRequest;
 import com.example.project000056.payload.response.JwtResponse;
 import com.example.project000056.payload.response.MessageResponse;
 import com.example.project000056.qrcode.QRCodeGenerator;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -68,6 +70,7 @@ public class UserController{
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
         QRCodeGenerator qr = new QRCodeGenerator();
         userHolder = userHolder.getInstance();
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -83,23 +86,7 @@ public class UserController{
         // set singleton
         User userSignin = new User(userDetails.getId(),userDetails.getUsername(),userDetails.getEmail());
         userHolder.setUser(userSignin);
-//        QRCodeGenerator.generateQRCodeImage("ssss",350,350,"test.png");
-//        qRcodeUtil.getQRCodeImage("Xiaojie wants to eat eggs", 350, 350, "./src/main/resources");
-//        QrCodeUtil.save("123",null,"./src/main/resources");
-//        MailService.sendSimpleMail(userSignin.getEmail(),"New Order","QR code");
-//        MailService.sendAttachmentsMail(userSignin.getEmail(),"dasdas","dasda","test.png");
-//        MailService.sendAttachmentsMail("s3798551@student.rmit.edu.au","dasdas","dasda","test.png");
-//        System.out.println(userSignin.getEmail());
-//        MailService.sendAttachmentsMail("653745320@qq.com","dasdas","dasda","test.png");
-//        QRCodeGenerator.generateQRCodeImage("orderDetail",350,350,"order.png");
-//        MailService.sendAttachmentsMail(userSignin.getEmail(),"QRCode for order details","Order created successfully!","order.png");
-//        MailService.sendAttachmentsMail("s3798554@student.rmit.edu.au","QRCode for order details","Order created successfully!","order.png");
-//        MailService.sendAttachmentsMail("s3798551@student.rmit.edu.au","QRCode for order details","Order created successfully!","order.png");
 
-//        MailService.sendInlineResourceMail("s3798551@student.rmit.edu.au","New Order","QR code","test.png","png");
-//        MailService.sendInlineResourceMail("653745320@qq.com","New Order","QR code","test.png","png");
-//        emailSendBox.send("test","qrcode",false,userSignin.getEmail(),null,new File("test.png"));
-//        System.out.println(userSignin.getId());
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
@@ -107,6 +94,35 @@ public class UserController{
                 roles));
     }
 
+    @PutMapping("/update")
+    public ResponseEntity updateUser(@RequestBody UpdateRequest updateRequest) throws Exception {
+
+// *Note from Yohanes = Hi guys, Im using @RequestBody for update user functionality to make it simple for the front-end,
+// which means you need use JSON raw in Postman as the parameter. Thanks
+
+        userHolder = userHolder.getInstance();
+        // get current user's details
+        Optional<User> userOptional =  userRepository.findByUsername(userHolder.getUser().getUsername());
+        User updateUser = userOptional.get();
+        System.out.println(updateUser.getUsername() + " " + updateUser.getPassword() + " " + updateUser.getPhone());
+        // update user's details
+        if(!updateRequest.getUsername().isEmpty()) {
+            updateUser.setUsername(updateRequest.getUsername());
+        }
+        if(!updateRequest.getPassword().isEmpty()) {
+            updateUser.setPassword(encoder.encode(updateRequest.getPassword()));
+        }
+        if(!updateRequest.getPhone().isEmpty()) {
+            updateUser.setPhone(updateRequest.getPhone());
+        }
+        // save updated user
+        userRepository.save(updateUser);
+        System.out.println(updateUser.getUsername() + " " + updateUser.getPassword() + " " + updateUser.getPhone());
+        // set singleton
+        userHolder.setUser(updateUser);
+
+        return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
+    }
 //    @PostMapping("/signup")
 //    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 //        userHolder = userHolder.getInstance();
