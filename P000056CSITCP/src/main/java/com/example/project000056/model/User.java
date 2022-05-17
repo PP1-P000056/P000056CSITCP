@@ -1,7 +1,6 @@
 package com.example.project000056.model;
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Optional;
 
 @Entity
 @Table(name="user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
@@ -12,7 +11,7 @@ public class User {
     private String email;
     private String username;
     private String password;
-    private Boolean loggedIn;
+    private Boolean verified;
     private int role;
     private String phone;
 
@@ -21,6 +20,7 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(	name = "user_role",
+
             joinColumns = @JoinColumn(
                     name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
@@ -46,7 +46,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.roles = roles;
-        this.loggedIn = loggedIn;
+        this.verified = loggedIn;
     }
 
     public User(String username, String email, String password) {
@@ -112,12 +112,12 @@ public class User {
         this.roles = roles;
     }
 
-    public boolean isLoggedIn() {
-        return loggedIn;
+    public boolean isVerified() {
+        return verified;
     }
 
-    public void setLoggedIn(boolean loggedIn) {
-        this.loggedIn = loggedIn;
+    public void setVerified(boolean loggedIn) {
+        this.verified = loggedIn;
     }
 
     public int getRole() {

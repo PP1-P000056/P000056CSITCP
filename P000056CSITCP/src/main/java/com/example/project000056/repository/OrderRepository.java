@@ -16,5 +16,12 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     public List<Order> findOrderByUserID(Long input);
 
     Optional<Order> findById(Long input);
+
+    @Query("select o from Order o where o.status = 'waiting'")
+    public List<Order> findWaitingOrder();
+
+    // custom query to get Order by UserID
+    @Query("select o from Order o where o.driverID = ?1")
+    public List<Order> findByDriverID(int input);
 }
 
