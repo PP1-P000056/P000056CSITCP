@@ -18,6 +18,7 @@ public class Order {
     private String product_weight;
     private String pickup_date;
     private String pickup_time;
+    private String order_status;
     private Long userID;
     //file upload
     private String name;
@@ -176,5 +177,13 @@ public class Order {
 
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    public String getOrder_status() {
+        return order_status;
+    }
+
+    public void setOrder_status(String order_status) {
+        this.order_status = order_status;
     }
 }
