@@ -103,10 +103,16 @@ public class OrderController {
         return ResponseEntity.ok(new MessageResponse("Order accepted"));
     }
 
+//    //get Order by DriverID
+//    @GetMapping("/getDriverOrders")
+//    List<Order> getDriverOrders(@RequestBody DriverOrderRequest driverOrderRequest) {
+//        return orderRepository.findByDriverID(driverOrderRequest.getDriverID());
+//    }
+
     //get Order by DriverID
     @GetMapping("/getDriverOrders")
-    List<Order> getDriverOrders(@RequestBody DriverOrderRequest driverOrderRequest) {
-        return orderRepository.findByDriverID(driverOrderRequest.getDriverID());
+    List<Order> getDriverOrders(@RequestParam(value = "driverID") int driverID) {
+        return orderRepository.findByDriverID(driverID);
     }
 
     //update order
