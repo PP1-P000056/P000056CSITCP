@@ -114,13 +114,10 @@ public class OrderController {
     public ResponseEntity updateOrder(@RequestBody UpdateOrderRequest updateOrderRequest) {
         Optional<Order> order = orderRepository.findById(updateOrderRequest.getId());
         Order UpdateOrder = order.get();
+        UpdateOrder.setProcess(updateOrderRequest.getProcess());
         if(UpdateOrder.getProcess() == 3 ) {
-            UpdateOrder.setStatus("Finish");
+            UpdateOrder.setStatus("finish");
         }
-        else {
-            UpdateOrder.setProcess(updateOrderRequest.getProcess());
-        }
-
         orderRepository.save(UpdateOrder);
         return ResponseEntity.ok(new MessageResponse("Order updated"));
     }
